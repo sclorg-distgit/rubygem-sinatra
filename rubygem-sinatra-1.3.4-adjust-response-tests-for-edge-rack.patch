@@ -1,0 +1,51 @@
+From 1286b089b4984e39b3a9e8512f8d45667a3aabed Mon Sep 17 00:00:00 2001
+From: Konstantin Haase <konstantin.mailinglists@googlemail.com>
+Date: Wed, 12 Dec 2012 22:27:03 +0100
+Subject: [PATCH] adjust response tests for edge rack
+
+---
+ test/response_test.rb | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/test/response_test.rb b/test/response_test.rb
+index 9d80e4e..32ab6ed 100644
+--- a/test/response_test.rb
++++ b/test/response_test.rb
+@@ -7,6 +7,11 @@ class ResponseTest < Test::Unit::TestCase
+     @response = Sinatra::Response.new
+   end
+ 
++  def assert_same_body(a, b)
++    enum = Enumerable.const_get(:Enumerator)
++    assert_equal enum.new(a).to_a, enum.new(b).to_a
++  end
++
+   it "initializes with 200, text/html, and empty body" do
+     assert_equal 200, @response.status
+     assert_equal 'text/html', @response['Content-Type']
+@@ -37,7 +42,7 @@ class ResponseTest < Test::Unit::TestCase
+     @response.body = ['Hello', 'World!', '✈']
+     status, headers, body = @response.finish
+     assert_equal '14', headers['Content-Length']
+-    assert_equal @response.body, body
++    assert_same_body @response.body, body
+   end
+ 
+   it 'does not call #to_ary or #inject on the body' do
+@@ -51,11 +56,11 @@ def object.each(*) end
+ 
+   it 'does not nest a Sinatra::Response' do
+     @response.body = Sinatra::Response.new ["foo"]
+-    assert_equal @response.body, ["foo"]
++    assert_same_body @response.body, ["foo"]
+   end
+ 
+   it 'does not nest a Rack::Response' do
+     @response.body = Rack::Response.new ["foo"]
+-    assert_equal @response.body, ["foo"]
++    assert_same_body @response.body, ["foo"]
+   end
+ end
+-- 
+1.8.5.1
+
