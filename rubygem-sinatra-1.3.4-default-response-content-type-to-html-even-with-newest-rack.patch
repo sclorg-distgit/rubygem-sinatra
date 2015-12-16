@@ -1,0 +1,28 @@
+From e83153b3b9b831fefc4f8f29db16acb569a894d8 Mon Sep 17 00:00:00 2001
+From: Konstantin Haase <konstantin.mailinglists@googlemail.com>
+Date: Sat, 26 Jan 2013 10:02:40 +0100
+Subject: [PATCH] default response content type to html even with newest rack
+
+---
+ lib/sinatra/base.rb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/sinatra/base.rb b/lib/sinatra/base.rb
+index dea8363..33b699e 100644
+--- a/lib/sinatra/base.rb
++++ b/lib/sinatra/base.rb
+@@ -63,6 +63,11 @@ def accept_entry(entry)
+   # http://rack.rubyforge.org/doc/classes/Rack/Response.html
+   # http://rack.rubyforge.org/doc/classes/Rack/Response/Helpers.html
+   class Response < Rack::Response
++    def initialize(*)
++      super
++      headers['Content-Type'] ||= 'text/html'
++    end
++
+     def body=(value)
+       value = value.body while Rack::Response === value
+       @body = String === value ? [value.to_str] : value
+-- 
+1.8.5.1
+
