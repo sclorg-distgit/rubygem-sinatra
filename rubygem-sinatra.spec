@@ -3,12 +3,12 @@
 
 %global gem_name sinatra
 
-%global bootstrap 1
+%global bootstrap 0
 
 Summary:        Ruby-based web application framework
 Name:           %{?scl_prefix}rubygem-%{gem_name}
 Version:        1.4.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Group:          Development/Languages
 License:        MIT
 URL: http://www.sinatrarb.com/
@@ -90,6 +90,9 @@ rm %{buildroot}/%gem_instdir/.yardopts # Remove YARD configuration
 %{gem_instdir}/Gemfile
 
 %changelog
+* Wed Feb 10 2016 Dominic Cleal <dcleal@redhat.com> 1.4.6-4
+- Enable package check
+
 * Fri Jan 22 2016 Dominic Cleal <dcleal@redhat.com> 1.4.6-3
 - Rebuild for sclo-ror42 SCL
 
