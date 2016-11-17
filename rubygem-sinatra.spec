@@ -3,12 +3,12 @@
 
 %global gem_name sinatra
 
-%global bootstrap 1
+%global bootstrap 0
 
 Summary:        Ruby-based web application framework
 Name:           %{?scl_prefix}rubygem-%{gem_name}
 Version:        1.4.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Group:          Development/Languages
 License:        MIT
 URL: http://www.sinatrarb.com/
@@ -94,6 +94,9 @@ rm %{buildroot}/%gem_instdir/.yardopts # Remove YARD configuration
 %{gem_instdir}/Gemfile
 
 %changelog
+* Wed Apr 06 2016 Pavel Valena <pvalena@redhat.com> - 1:1.4.6-5
+- Enable tests
+
 * Wed Feb 24 2016 Pavel Valena <pvalena@redhat.com> - 1:1.4.6-4
 - Update to 1.4.6
 
